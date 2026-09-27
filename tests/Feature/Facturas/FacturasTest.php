@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Services\FacturaService;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Sleep;
 use Livewire\Livewire;
 
 beforeEach(function (): void {
@@ -179,6 +180,8 @@ test('la tarea programada envía recordatorios de las facturas vencidas', functi
     Mail::fake();
     $this->servicio->emitir(borradorDe($this->usuario, $this->cliente), now()->subDays(60));
     $this->servicio->emitir(borradorDe($this->usuario, $this->cliente), now());
+
+    Sleep::fake();
 
     $this->artisan('facturas:recordatorios')->assertSuccessful();
 
